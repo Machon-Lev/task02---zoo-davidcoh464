@@ -247,6 +247,7 @@ void Zoo::run()
 {
 	printMap();
 	printList();
+
 	std::string line;
 	std::cout << "Enter command: ";
 	while (std::getline(std::cin, line)) 
@@ -261,12 +262,14 @@ void Zoo::run()
 			continue;
 		}
 		else { it->second(); }
+		
 		if (line != "help")
 		{
 			step();
 			printMap();
 			printList();
 		}
+		
 		std::cout << "Enter command: ";
 		std::cin >> std::ws; // ignore white spaces
 	}
