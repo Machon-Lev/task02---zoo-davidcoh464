@@ -6,6 +6,18 @@ ostream& operator << (ostream& out, const Location& loc)
     return out;
 }
 
+Location::Location()
+{
+    row = rand() % ROWS;
+    col = rand() % COLUMNS;
+}
+
+Location::Location(int _row, int _col)
+{
+    row = _row;
+    col = _col;
+}
+
 void Location::operator+=(const Location& other)
 {
     if (this->row + other.row >= ROWS)

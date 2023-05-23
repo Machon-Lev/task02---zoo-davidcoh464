@@ -7,11 +7,8 @@ class Shark : public Animal
 	void setRandStep();
 	void setLocation()override;
 public:
-	Shark(const string& _name, const Location& _loc) : Animal(_name, _loc)
-	{
-		setRandStep();
-	}
-	void printDetails()const override { cout << name << "-" << "Shark " << loc; }
-	char getInitial()const override { return 'S'; }
+	Shark(const string& name, const Location& loc);
+	void printDetails()const override;
+	char getInitial()const override;
 	void stop() override;
 };

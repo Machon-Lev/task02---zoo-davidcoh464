@@ -5,14 +5,9 @@
 class Lion : public Animal
 {
 	void setLocation()override;
-	
 public:
-	Lion(const string& _name, const Location& _loc) :Animal(_name, _loc)
-	{
-		next_step.col = rand() % 2 == 0 ? 2 : -2;
-		next_step.row = 0;
-	}
-	void printDetails()const override { cout << name << "-" << "Lion " << loc; }
-	char getInitial()const override { return 'L'; }
+	Lion(const string& name, const Location& loc);
+	void printDetails()const override;
+	char getInitial()const override;
 	void stop() override;
 };

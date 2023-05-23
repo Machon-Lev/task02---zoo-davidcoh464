@@ -5,28 +5,44 @@ void Shark::setRandStep()
 	int val = rand();
 	if (val % 3 == 0) // horizntal
 	{
-		next_step.col = rand() % 2 == 0 ? 5 : -5;
+		_next_step.col = rand() % 2 == 0 ? 5 : -5;
 	}
 	else if (val % 3 == 1) // vertical
 	{
-		next_step.row = rand() % 2 == 0 ? 5 : -5;
+		_next_step.row = rand() % 2 == 0 ? 5 : -5;
 	}
 	else // diagonal
 	{
-		next_step.row = next_step.col = rand() % 2 == 0 ? 5 : -5;
+		_next_step.row = _next_step.col = rand() % 2 == 0 ? 5 : -5;
 	}
 }
 
 void Shark::setLocation()
 {
-	loc += next_step;
+	_loc += _next_step;
+}
+
+Shark::Shark(const string& name, const Location& loc)
+	: Animal(name, loc)
+{
+	setRandStep();
+}
+
+void Shark::printDetails() const
+{
+	cout << _name << "-" << "Shark " << _loc;
+}
+
+char Shark::getInitial() const
+{
+	return 'S';
 }
 
 void Shark::stop()
 {
-	if (!isStop)
+	if (!_isStop)
 	{
-		isStop = true;
+		_isStop = true;
 		setRandStep();
 	}
 }

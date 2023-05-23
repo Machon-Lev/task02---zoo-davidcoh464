@@ -2,21 +2,21 @@
 
 void Zoo::stop(int index)
 {
-	if (index < 0 || index >= animals.size())
+	if (index < 0 || index >= _animals.size())
 		throw std::out_of_range("Index out of range\n");
-	animals[index]->stop();
+	_animals[index]->stop();
 }
 
 void Zoo::move(int index)
 {
-	if (index < 0 || index >= animals.size())
+	if (index < 0 || index >= _animals.size())
 		throw std::out_of_range("Index out of range\n");
-	animals[index]->move();
+	_animals[index]->move();
 }
 
 void Zoo::step()
 {
-	for (auto& a : animals)
+	for (auto& a : _animals)
 		a->step();
 }
 
@@ -26,25 +26,25 @@ void Zoo::create(AnimalType type, string name)
 	switch (type)
 	{
 	case CLOWNFISH:
-		animals.push_back(make_unique<Clownfish>(name, loc));
+		_animals.push_back(make_unique<Clownfish>(name, loc));
 		break;
 	case DOG:
-		animals.push_back(make_unique<Dog>(name, loc));
+		_animals.push_back(make_unique<Dog>(name, loc));
 		break;
 	case GOOSE:
-		animals.push_back(make_unique<Goose>(name, loc));
+		_animals.push_back(make_unique<Goose>(name, loc));
 		break;
 	case LION:
-		animals.push_back(make_unique<Lion>(name, loc));
+		_animals.push_back(make_unique<Lion>(name, loc));
 		break;
 	case MONKEY:
-		animals.push_back(make_unique<Monkey>(name, loc));
+		_animals.push_back(make_unique<Monkey>(name, loc));
 		break;
 	case OWL:
-		animals.push_back(make_unique<Owl>(name, loc));
+		_animals.push_back(make_unique<Owl>(name, loc));
 		break;
 	case SHARK:
-		animals.push_back(make_unique<Shark>(name, loc));
+		_animals.push_back(make_unique<Shark>(name, loc));
 		break;
 	default:
 		break;
@@ -53,9 +53,9 @@ void Zoo::create(AnimalType type, string name)
 
 void Zoo::del(int index)
 {
-	if (index < 0 || index >= animals.size())
+	if (index < 0 || index >= _animals.size())
 		throw std::out_of_range("Index out of range\n");
-	animals.erase(animals.begin() + index);
+	_animals.erase(_animals.begin() + index);
 }
 
 void Zoo::delAll(AnimalType type)
@@ -88,10 +88,10 @@ void Zoo::delAll(AnimalType type)
 		initial = 'a';
 		break;
 	}
-	animals.erase(
-		std::remove_if(animals.begin(), animals.end(),
+	_animals.erase(
+		std::remove_if(_animals.begin(), _animals.end(),
 			[initial](const unique_ptr<Animal>& a) {  return a->getInitial() == initial; }),
-		animals.end());
+		_animals.end());
 }
 
 void Zoo::help() const
@@ -117,7 +117,7 @@ void Zoo::printMap() const
 		{
 			Location loc(r, c);
 			bool is_full = false;
-			for (auto& animal : animals)
+			for (auto& animal : _animals)
 			{
 				if (animal->getLocation() == loc)
 				{
@@ -138,7 +138,7 @@ void Zoo::printList() const
 {
 	cout << "Zoo-List:\n";
 	int index = 0;
-	for (auto& animal : animals)
+	for (auto& animal : _animals)
 	{
 		cout << index << ". ";
 		animal->printDetails();

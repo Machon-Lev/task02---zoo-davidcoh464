@@ -17,7 +17,7 @@ using std::unique_ptr, std::make_unique;
 
 class Zoo
 {
-	std::vector<unique_ptr<Animal>> animals;
+	std::vector<unique_ptr<Animal>> _animals;
 	enum AnimalType
 	{
 		CLOWNFISH, DOG, GOOSE, LION, MONKEY, OWL, SHARK
@@ -36,7 +36,6 @@ class Zoo
 	void toLower(string& s) const;
 
 public:
-
 	Zoo();
 	void run();
 };

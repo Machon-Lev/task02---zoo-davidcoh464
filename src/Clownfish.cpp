@@ -5,28 +5,44 @@ void Clownfish::setRandStep()
 	int val = rand();
 	if (val % 3 == 0) // horizntal
 	{
-		next_step.col = rand() % 2 == 0 ? 1 : -1;
+		_next_step.col = rand() % 2 == 0 ? 1 : -1;
 	}
 	else if (val % 3 == 1) // vertical
 	{
-		next_step.row = rand() % 2 == 0 ? 1 : -1;
+		_next_step.row = rand() % 2 == 0 ? 1 : -1;
 	}
 	else // diagonal
 	{
-		next_step.row = next_step.col = rand() % 2 == 0 ? 1 : -1;
+		_next_step.row = _next_step.col = rand() % 2 == 0 ? 1 : -1;
 	}
 }
 
 void Clownfish::setLocation()
 {
-	loc += next_step;
+	_loc += _next_step;
+}
+
+Clownfish::Clownfish(const string& name, const Location& loc)
+	: Animal(name, loc)
+{
+	setRandStep();
+}
+
+void Clownfish::printDetails() const
+{
+	cout << _name << "-" << "Clownfish " << _loc;
+}
+
+char Clownfish::getInitial() const
+{
+	return 'C';
 }
 
 void Clownfish::stop()
 {
-	if (!isStop)
+	if (!_isStop)
 	{
-		isStop = true;
+		_isStop = true;
 		setRandStep();
 	}
 }

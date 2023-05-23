@@ -3,15 +3,12 @@
 
 class Monkey : public Animal
 {
-	int counter;
+	int _counter;
 	void setRandStep();
 	void setLocation()override;
 public:
-	Monkey(const string& _name, const Location& _loc) :Animal(_name, _loc), counter(0)
-	{
-		setRandStep();
-	}
-	void printDetails()const override { cout << name << "-" << "Monkey " << loc; }
-	char getInitial()const override { return 'M'; }
+	Monkey(const string& name, const Location& loc);
+	void printDetails()const override;
+	char getInitial()const override;
 	void stop() override;
 };
