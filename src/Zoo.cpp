@@ -172,22 +172,10 @@ void Zoo::toLower(string &s) const
 	std::transform(s.begin(), s.end(), s.begin(), ::tolower);
 }
 
-Zoo::Zoo()
+void Zoo::setCommandMap()
 {
-	create(LION, "Simba");
-	create(LION, "Mufasa");
-	create(MONKEY, "Rafiki");
-	create(GOOSE, "Akka");
-	create(GOOSE, "Morten");
-	create(OWL, "Hedwig");
-	create(DOG, "Toto");
-	create(SHARK, "Jaws");
-	create(CLOWNFISH, "Nemo");
-}
-
-void Zoo::run()
-{
-	static const std::unordered_map<std::string_view, std::function<void()>> commandMap = {
+	_commandMap =
+	{
 		{"stop", [&]() {
 			int index;
 			std::cout << "Enter index: ";
@@ -195,14 +183,14 @@ void Zoo::run()
 			try { stop(index); }
 			catch (const std::exception& e) { std::cerr << "Error: " << e.what() << std::endl; }
 		}},
-		{"move", [&]() {
+		{ "move", [&]() {
 			int index;
 			std::cout << "Enter index: ";
 			std::cin >> index;
 			try { move(index); }
 			catch (const std::exception& e) { std::cerr << "Error: " << e.what() << std::endl; }
-		}},
-		{"create", [&]() {
+		} },
+		{ "create", [&]() {
 			AnimalType type;
 			std::string name;
 			std::cout << "Enter animal type: ";
@@ -216,15 +204,15 @@ void Zoo::run()
 				create(type, name);
 			}
 			catch (const std::exception& e) { std::cerr << "Error: " << e.what() << std::endl; }
-		}},
-		{"del", [&]() {
+		} },
+		{ "del", [&]() {
 			int index;
 			std::cout << "Enter index: ";
 			std::cin >> index;
 			try { del(index); }
 			catch (const std::exception& e) { std::cerr << "Error: " << e.what() << std::endl; }
-		}},
-		{"delall", [&]() {
+		} },
+		{ "delall", [&]() {
 			AnimalType type;
 			std::string name;
 			std::cout << "Enter animal type: ";
@@ -233,19 +221,39 @@ void Zoo::run()
 			toLower(name);
 			try { delAll(toAnimalType(name)); }
 			catch (const std::exception& e) { std::cerr << "Error: " << e.what() << std::endl; }
-		}},
-		{"help", [&]() { help(); }},
-		{".", [&]() {}},
-		{"exit", []() { std::exit(0); }}
+		} },
+		{ "help", [&]() { help(); } },
+		{ ".", [&]() {} },
+		{ "exit", []() { std::exit(0); } }
 	};
+}
+
+Zoo::Zoo()
+{
+	create(LION, "Simba");
+	create(LION, "Mufasa");
+	create(MONKEY, "Rafiki");
+	create(GOOSE, "Akka");
+	create(GOOSE, "Morten");
+	create(OWL, "Hedwig");
+	create(DOG, "Toto");
+	create(SHARK, "Jaws");
+	create(CLOWNFISH, "Nemo");
+
+	setCommandMap();
+}
+
+void Zoo::run()
+{
 	printMap();
 	printList();
 	std::string line;
 	std::cout << "Enter command: ";
-	while (std::getline(std::cin, line)) {
+	while (std::getline(std::cin, line)) 
+	{
 		toLower(line);
-		const auto it = commandMap.find(line);
-		if (it == commandMap.end())
+		const auto it = _commandMap.find(line);
+		if (it == _commandMap.end())
 		{
 			std::cerr << "Error: unknown command '" << line << "'" << std::endl;
 			cout << "Enter command again: ";
@@ -253,9 +261,12 @@ void Zoo::run()
 			continue;
 		}
 		else { it->second(); }
-		step();
-		printMap();
-		printList();
+		if (line != "help")
+		{
+			step();
+			printMap();
+			printList();
+		}
 		std::cout << "Enter command: ";
 		std::cin >> std::ws; // ignore white spaces
 	}

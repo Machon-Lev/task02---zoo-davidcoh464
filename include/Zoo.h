@@ -18,6 +18,7 @@ using std::unique_ptr, std::make_unique;
 class Zoo
 {
 	std::vector<unique_ptr<Animal>> _animals;
+	std::unordered_map<std::string_view, std::function<void()>> _commandMap;
 	enum AnimalType
 	{
 		CLOWNFISH, DOG, GOOSE, LION, MONKEY, OWL, SHARK
@@ -34,7 +35,7 @@ class Zoo
 	void printList() const;
 	AnimalType toAnimalType(const std::string& str)const;
 	void toLower(string& s) const;
-
+	void setCommandMap();
 public:
 	Zoo();
 	void run();
